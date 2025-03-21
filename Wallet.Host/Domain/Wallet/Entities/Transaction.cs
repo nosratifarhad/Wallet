@@ -10,7 +10,5 @@ namespace Wallet.Host.Domain.Wallet.Entities
         public TransactionKind Kind { get; set; }
         public DateTime CreateDateUtc { get; set; }
         public int FinancialVoucherId { get; set; }
-
-        public UserWallet Wallet { get; set; }
     }
 }

@@ -7,16 +7,17 @@ namespace Wallet.Host.Services
 {
     public class WalletService : IWalletService
     {
+        private readonly ITransactionReadRepository _transactionReadRepository;
         private readonly IWalletReadRepository _walletReadRepository;
-        private readonly IWalletWriteRepository _walletWriteRepository;
+
         private const string DefaultWalletName = "DefaultWallet";
 
         public WalletService(
-            IWalletReadRepository walletReadRepository,
-            IWalletWriteRepository walletWriteRepository)
+            ITransactionReadRepository transactionReadRepository,
+            IWalletReadRepository walletReadRepository)
         {
+            _transactionReadRepository = transactionReadRepository;
             _walletReadRepository = walletReadRepository;
-            _walletWriteRepository = walletWriteRepository;
         }
 
         public async Task<WalletBalanceDto> GetWalletBalance(int walletId, int profileId)
@@ -29,10 +30,10 @@ namespace Wallet.Host.Services
                 throw new Exception("Profile Is not Owner.");
 
             var sumCashIn =
-                    await _walletReadRepository.GetSumAmountTransaction(walletId, TransactionKind.CashIn);
+                    await _transactionReadRepository.GetSumAmountTransaction(walletId, TransactionKind.CashIn);
 
             var sumCashOut =
-                await _walletReadRepository.GetSumAmountTransaction(walletId, TransactionKind.CashOut);
+                await _transactionReadRepository.GetSumAmountTransaction(walletId, TransactionKind.CashOut);
 
             var balance = sumCashIn.Amount - sumCashOut.Amount;
 

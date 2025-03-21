@@ -6,6 +6,5 @@
         public string Name { get; set; }
         public decimal Ratio { get; set; }
         public DateTime ModifiedDateUtc { get; set; }
-        public ICollection<Currency> Currencies { get; set; }
     }
 }

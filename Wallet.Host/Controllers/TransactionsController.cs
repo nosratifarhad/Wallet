@@ -31,7 +31,7 @@ namespace Wallet.Host.Controllers
             return Created();
         }
 
-        [HttpPost("api/v1/transactions/Swap")]
+        [HttpPost("api/v1/transactions/swap")]
         public async Task<IActionResult> Swap([FromBody] SwapCommand command)
         {
             await _mediator.Send(command);

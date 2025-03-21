@@ -7,20 +7,22 @@ namespace Wallet.Host.Services
 {
     public class CurrencyService : ICurrencyService
     {
-        private readonly IWalletReadRepository _walletReadRepository;
-        private readonly IWalletWriteRepository _walletWriteRepository;
+        private readonly ICurrencyReadRepository _currencyReadRepository;
+        private readonly ICurrencyWriteRepository _currencyWriteRepository;
 
-        public CurrencyService(IWalletReadRepository walletReadRepository,
-            IWalletWriteRepository walletWriteRepository)
+        public CurrencyService(
+            ICurrencyReadRepository currencyReadRepository,
+            IWalletReadRepository walletReadRepository,
+            ICurrencyWriteRepository currencyWriteRepository)
         {
-            _walletReadRepository = walletReadRepository;
-            _walletWriteRepository = walletWriteRepository;
+            _currencyReadRepository = currencyReadRepository;
+            _currencyWriteRepository = currencyWriteRepository;
         }
 
         public async Task CreateCurrency(CurrencyDto currencytDto)
         {
             var currency =
-                await _walletReadRepository.GetCurrency(currencytDto.Code);
+                await _currencyReadRepository.GetCurrency(currencytDto.Code);
             if (currency is not null)
                 throw new Exception("Currency Is Existing");
 
@@ -28,32 +30,34 @@ namespace Wallet.Host.Services
             {
                 Code = currencytDto.Code,
                 Name = currencytDto.Name,
-                Ratio = currencytDto.Ratio
+                Ratio = currencytDto.Ratio,
+                ModifiedDateUtc = DateTime.UtcNow
             };
 
-            await _walletWriteRepository.CreateCurrency(currency);
+            await _currencyWriteRepository.CreateCurrency(currency);
         }
 
         public async Task UpdateCurrency(CurrencyDto currencytDto)
         {
             var currency =
-                    await _walletReadRepository.GetCurrency(currencytDto.Code);
+                    await _currencyReadRepository.GetCurrency(currencytDto.Code);
             if (currency is null)
                 throw new Exception("Currency Is Existing");
 
             currency = new Currency()
             {
                 Name = currencytDto.Name,
-                Ratio = currencytDto.Ratio
+                Ratio = currencytDto.Ratio,
+                ModifiedDateUtc = DateTime.UtcNow
             };
 
-            await _walletWriteRepository.UpdateCurrency(currency);
+            await _currencyWriteRepository.UpdateCurrency(currency);
         }
 
         public async Task<CurrencyDto> GetCurrency(string code)
         {
             var currency =
-                    await _walletReadRepository.GetCurrency(code);
+                    await _currencyReadRepository.GetCurrency(code);
             if (currency is null)
                 throw new Exception("Currency Is Existing");
 
@@ -65,7 +69,7 @@ namespace Wallet.Host.Services
         public async Task<IEnumerable<CurrencyDto>> GetCurrency()
         {
             var currencies =
-                    await _walletReadRepository.GetCurrencies();
+                    await _currencyReadRepository.GetCurrencies();
             if (!currencies.Any())
                 throw new Exception("Currency Is Existing");
             var currenciesDtos = new List<CurrencyDto>();
