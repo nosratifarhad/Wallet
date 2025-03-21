@@ -2,7 +2,7 @@
 using Wallet.Host.Dto;
 using Wallet.Host.Services.Contracts;
 
-namespace Wallet.Host.Features.Wallet.Commands.CreateWallet
+namespace Wallet.Host.Features.Currency.Commands.CreateCurrency
 {
     public class CreateCurrencyCommandHandler : IRequestHandler<CreateCurrencyCommand, Unit>
     {
@@ -15,7 +15,7 @@ namespace Wallet.Host.Features.Wallet.Commands.CreateWallet
 
         public async Task<Unit> Handle(CreateCurrencyCommand request, CancellationToken cancellationToken)
         {
-            var createWalletDto = new CurrencyDto(request.Code,request.Name,request.Ratio);
+            var createWalletDto = new CurrencyDto(request.Code, request.Name, request.Ratio);
 
             await _walletService.CreateCurrency(createWalletDto);
 

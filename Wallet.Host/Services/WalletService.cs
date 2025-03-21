@@ -1,8 +1,7 @@
 ﻿using Wallet.Host.Domain.Wallet;
-using Wallet.Host.Domain.Wallet.Enums;
 using Wallet.Host.Services.Contracts;
-using Wallet.Host.Domain.Wallet.Entities;
 using Wallet.Host.Dto;
+using Wallet.Host.Domain.Wallet.Enums;
 
 namespace Wallet.Host.Services
 {
@@ -20,47 +19,32 @@ namespace Wallet.Host.Services
             _walletWriteRepository = walletWriteRepository;
         }
 
-        public async Task CreateDefaultWallet(int profileId)
+        public async Task<WalletBalanceDto> GetWalletBalance(int walletId, int profileId)
         {
-            var walletDto = await _walletReadRepository.GetWallet(profileId);
-            if (walletDto != null)
-                return;
+            var wallet = await _walletReadRepository.GetWalletById(walletId);
+            if (wallet == null)
+                throw new Exception("Source Wallet Not Found.");
 
-            var walletId = await CreateWallet(profileId);
+            if (wallet.ProfileId != profileId)
+                throw new Exception("Profile Is not Owner.");
 
-            await CreateCurrencyWallet(walletId);
-        }
+            var sumCashIn =
+                    await _walletReadRepository.GetSumAmountTransaction(walletId, TransactionKind.CashIn);
 
-        public Task<WalletDto> GetWalletBalance(int walletId)
-        {
-            throw new NotImplementedException();
+            var sumCashOut =
+                await _walletReadRepository.GetSumAmountTransaction(walletId, TransactionKind.CashOut);
+
+            var balance = sumCashIn.Amount - sumCashOut.Amount;
+
+            return new WalletBalanceDto()
+            {
+                ProfileId = profileId,
+                WalletId = walletId,
+                Balance = balance
+            };
         }
 
         #region private
-        private async Task<int> CreateWallet(int profileId)
-        {
-            var userWallet = new UserWallet()
-            {
-                ProfileId = profileId,
-                Status = WalletStatus.Active,
-                Title = DefaultWalletName,
-            };
-
-            int walletId = await _walletWriteRepository.CreateWallet(userWallet);
-
-            return walletId;
-        }
-
-        private async Task CreateCurrencyWallet(int walletId)
-        {
-            var currencyWallet = new CurrencyWallet()
-            {
-                WalletId = walletId,
-                CurrencyCode = "IRR"
-            };
-
-            await _walletWriteRepository.CreateCurrencyWallet(currencyWallet);
-        }
 
         #endregion private
     }

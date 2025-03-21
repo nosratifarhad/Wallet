@@ -2,7 +2,7 @@
 
 namespace Wallet.Host.Dto
 {
-    public record WalletDto(int ProfileId, string Title, WalletStatus Status,string CurrencyCode)
+    public record WalletDto(int ProfileId, string Title, WalletStatus Status, string CurrencyCode)
     {
     }
 }

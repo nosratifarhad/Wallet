@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Wallet.Host.Features.Wallet.Commands.CreateWallet;
+using Wallet.Host.Features.Currency.Commands.CreateCurrency;
 
 namespace Wallet.Host.Controllers
 {

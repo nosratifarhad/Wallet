@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Domain\Wallet\Entities\CurrencyWallet.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MassTransit.RabbitMQ" Version="8.4.0" />
     <PackageReference Include="MediatR" Version="12.4.1" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0" />
@@ -18,7 +22,6 @@
 
   <ItemGroup>
     <Folder Include="Extensions\" />
-    <Folder Include="Features\Wallet\Queries\" />
     <Folder Include="Options\" />
     <Folder Include="Repositories\" />
   </ItemGroup>
