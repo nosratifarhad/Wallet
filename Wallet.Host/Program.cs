@@ -1,7 +1,10 @@
 using MediatR;
+using Wallet.Host.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.ConfigureBroker();
+builder.Services.AddServiceRegistryConfiguration();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -10,7 +13,6 @@ builder.Services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

@@ -11,13 +11,13 @@ namespace Wallet.Host.Services
         private const decimal MaxLimitedAmount = 1000000;
 
         private readonly IWalletReadRepository _walletReadRepository;
-        private readonly IWalletWriteRepository _walletWriteRepository;
+        private readonly ITransactionWriteRepository _transactionWriteRepository;
 
         public TransactionService(IWalletReadRepository walletReadRepository,
-            IWalletWriteRepository walletWriteRepository)
+            ITransactionWriteRepository transactionWriteRepository)
         {
             _walletReadRepository = walletReadRepository;
-            _walletWriteRepository = walletWriteRepository;
+            _transactionWriteRepository = transactionWriteRepository;
         }
 
         public async Task ChashIn(TransactionDto transactionDto)
@@ -39,7 +39,7 @@ namespace Wallet.Host.Services
                 Kind = TransactionKind.CashIn
             };
 
-            await _walletWriteRepository.ChashIn(transaction);
+            await _transactionWriteRepository.ChashIn(transaction);
         }
 
         public async Task ChashOut(TransactionDto transactionDto)
@@ -61,7 +61,7 @@ namespace Wallet.Host.Services
                 Kind = TransactionKind.CashOut
             };
 
-            await _walletWriteRepository.ChashOut(transaction);
+            await _transactionWriteRepository.ChashOut(transaction);
         }
 
         public async Task Swap(SwapDto swapDto)
@@ -101,8 +101,8 @@ namespace Wallet.Host.Services
                 CreateDateUtc = DateTime.UtcNow,
             };
 
-            await _walletWriteRepository.ChashOut(sourceTransaction);
-            await _walletWriteRepository.ChashIn(destinationTransaction);
+            await _transactionWriteRepository.ChashOut(sourceTransaction);
+            await _transactionWriteRepository.ChashIn(destinationTransaction);
         }
     }
 }

@@ -16,7 +16,7 @@ namespace Wallet.Host.Controllers
         [HttpGet("api/v1/wallets/{walletId}/balance")]
         public async Task<IActionResult> GetWalletBalance(int walletId)
         {
-            int profileId = 123;
+            int profileId = 123;//get from token
 
             await _mediator.Send(new GetWalletBalanceQuery(walletId, profileId));
 
