@@ -4,8 +4,8 @@
     {
         public string Code { get; set; }
         public string Name { get; set; }
-        public string Ratio { get; set; }
+        public decimal Ratio { get; set; }
         public DateTime ModifiedDateUtc { get; set; }
-        public ICollection<CurrencyWallet> Wallets { get; set; }
+        public ICollection<Currency> Currencies { get; set; }
     }
 }

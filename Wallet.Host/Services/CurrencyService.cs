@@ -1,5 +1,4 @@
-﻿using System.Xml.Linq;
-using Wallet.Host.Domain.Wallet;
+﻿using Wallet.Host.Domain.Wallet;
 using Wallet.Host.Domain.Wallet.Entities;
 using Wallet.Host.Dto;
 using Wallet.Host.Services.Contracts;

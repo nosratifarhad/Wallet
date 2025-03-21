@@ -1,4 +1,5 @@
 ﻿using Wallet.Host.Domain.Wallet.Entities;
+using Wallet.Host.Dto;
 
 namespace Wallet.Host.Domain.Wallet
 {
@@ -6,7 +7,10 @@ namespace Wallet.Host.Domain.Wallet
     {
         Task CreateCurrency(Currency currency);
         Task UpdateCurrency(Currency currency);
-        Task<int> CreateWallet(UserWallet userWallet);
-        Task CreateCurrencyWallet(CurrencyWallet currencyWallet);
+        Task CreateWallet(UserWallet userWallet);
+
+        Task ChashIn(Transaction transaction);
+        Task ChashOut(Transaction transaction);
+
     }
 }

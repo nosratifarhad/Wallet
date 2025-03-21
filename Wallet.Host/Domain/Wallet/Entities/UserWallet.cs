@@ -10,6 +10,9 @@ namespace Wallet.Host.Domain.Wallet.Entities
 
         public WalletStatus Status { get; set; }
 
-        public ICollection<CurrencyWallet> Wallets { get; set; }
+        public string CurrencyCode { get; set; }
+        
+        public Currency Currency { get; set; }
+        public ICollection<Transaction> Transactions { get; set; }
     }
 }
